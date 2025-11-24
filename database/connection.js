@@ -1,5 +1,6 @@
 import pkg from "pg";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE } = process.env;
