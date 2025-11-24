@@ -1,6 +1,9 @@
-import {pool} from '../database/connection.js'
+import { pool } from "../database/connection.js";
 
 export const encontrarTodos = async () => {
-  const { rows } = await pool.query("SELECT * FROM joyas");
+  console.log("Model: ejecutar SELECT * FROM inventario");
+  const { rows } = await pool.query("SELECT * FROM inventario");
+  console.log("Model: filas obtenidas:", rows.length);
   return rows;
 };
+
