@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { prepararHATEOAS } from "./consultas.js";
+import { obtenerJoyasPorFiltros, prepararHATEOAS } from "./consultas.js";
 import { encontrarTodos } from "./models/post.model.js";
 
 console.log("SERVER: arrancando archivo server.js");
@@ -28,3 +28,12 @@ app.get("/joyas", async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor" });
   }
 });
+
+app.get("/joyas/filtros", async (req, res) => {
+  try {
+    const joyas = await obtenerJoyasPorFiltros(req.query)
+    res.json(joyas)
+  } catch (error) {
+    console.log(`Error! ${error}`)
+  }
+})

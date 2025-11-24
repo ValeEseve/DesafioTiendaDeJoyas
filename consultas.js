@@ -28,3 +28,45 @@ export const obtenerJoyas = async ({ limits = 10, order_by = "id_ASC", page = 0 
   const { rows: joyas } = await pool.query(consultaFormateada);
   return joyas;
 };
+
+export const obtenerJoyasPorFiltros = async ({
+  precio_min,
+  precio_max,
+  categoria,
+  metal
+}) => {
+  let filtros = []
+  let values = []
+  let contador = 1
+
+  if (precio_min) {
+    filtros.push(`precio >= $${contador++}`)
+    values.push(precio_min)
+  }
+
+  if (precio_max) {
+    filtros.push(`precio <= $${contador++}`)
+    values.push(precio_max)
+  }
+
+  if (categoria) {
+    filtros.push(`categoria = $${contador++}`)
+    values.push(categoria)
+  }
+
+  if (metal) {
+    filtros.push(`metal = $${contador++}`)
+    values.push(metal)
+  }
+
+  let consulta = "SELECT * FROM inventario"
+
+  if (filtros.length > 0) {
+    consulta += " WHERE " + filtros.join(" AND ")
+  }
+
+  const { rows } = await pool.query(consulta, values)
+
+  return rows
+}
+
